@@ -1,8 +1,7 @@
 <?php 
 session_start();
 
-$username = $_POST['username'];
-$password = $_POST['password'];
+['username' => $username, 'password' => $password] = $_POST;
 
 $errors = [];
 
@@ -17,7 +16,7 @@ if (empty($password)) {
 
 // checking if validation is successfull
 if (empty($errors)) {
-    
+
     print_r([
         "username" => $username,
         "password" => $password,
@@ -29,4 +28,5 @@ if (empty($errors)) {
 
     header("Location:http://rawphp.test/");
 }
+
 
