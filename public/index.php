@@ -24,6 +24,9 @@
     <title>Document</title>
 </head>
 <body>
+    <div>
+        <a href="http://localhost:3000/public/register.php">register</a>
+    </div>
     <form action="../backend/login.php" method="POST">
         <input type="text" name="username" value="<?= value('username') ?>" placeholder="Enter USername" > <br> 
 
