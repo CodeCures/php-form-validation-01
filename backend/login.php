@@ -16,12 +16,24 @@ if (empty($password)) {
 
 // checking if validation is successfull
 if (empty($errors)) {
+    try {
+        $conn = new PDO("mysql:host=localhost;dbname=class_db", 'root', '');
+        // set the PDO error mode to exception
+        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    print_r([
-        "username" => $username,
-        "password" => $password,
-    ]);
+        $stmt = $conn->prepare("SELECT * FROM users WHERE username='mandate'");
+        var_dump($stmt->execute());
+        die();
+      
+        // set the resulting array to associative
+        $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+  
+        die();
+        header('Location: /public');
 
+      } catch(PDOException $e) {
+        echo "Connection failed: " . $e->getMessage();
+    }
 }else {
     $_SESSION['errors'] = $errors;
     $_SESSION['data'] = $_POST;
