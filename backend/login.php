@@ -22,13 +22,10 @@ if (empty($errors)) {
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
         $stmt = $conn->prepare("SELECT * FROM users WHERE username='mandate'");
-        var_dump($stmt->execute());
-        die();
       
         // set the resulting array to associative
         $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-  
-        die();
+
         header('Location: /public');
 
       } catch(PDOException $e) {
