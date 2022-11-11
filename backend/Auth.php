@@ -7,7 +7,7 @@ use PDOException;
 
 require('Database.php');
 require('Hash.php');
-require('User.php');
+require('Session.php');
 
 class Auth extends Database
 {
@@ -17,7 +17,7 @@ class Auth extends Database
      * 
      * @return User|null
      */
-    public static function login($username, $password): ?User
+    public static function login($username, $password): bool
     {
         try {
             $query = (new self)->conn->query(
@@ -25,13 +25,35 @@ class Auth extends Database
             );
 
             if($user = $query->fetch(PDO::FETCH_OBJ)){
-                return Hash::check($password, $user->password) ? new User($user) : null;
+                
+                if(Hash::check($password, $user->password)){
+                    Session::put('user', $user);
+                    return true;
+                }
             }
 
         } catch (PDOException $e) {
             return $e->getMessage();
         }
 
-        return null;
+        return false;
+    }
+
+    /**
+     * @return bool
+     */
+    public static function logout(): bool
+    {
+       session_destroy();
+       return true;
+    }
+
+    /**
+     * @return [type]
+     */
+    public static function user()
+    {
+        return Session::get('user');
     }
 }
+
