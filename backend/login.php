@@ -1,5 +1,11 @@
-<?php 
-session_start();
+<?php
+
+use Backend\Auth;
+use Backend\Session;
+
+require_once './Auth.php';
+require_once './Session.php';
+
 
 ['username' => $username, 'password' => $password] = $_POST;
 
@@ -16,24 +22,11 @@ if (empty($password)) {
 
 // checking if validation is successfull
 if (empty($errors)) {
-    try {
-        $conn = new PDO("mysql:host=localhost;dbname=class_db", 'root', '');
-        // set the PDO error mode to exception
-        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-        $stmt = $conn->prepare("SELECT * FROM users WHERE username='mandate'");
-      
-        // set the resulting array to associative
-        $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-
-        header('Location: /public');
-
-      } catch(PDOException $e) {
-        echo "Connection failed: " . $e->getMessage();
-    }
-}else {
-    $_SESSION['errors'] = $errors;
-    $_SESSION['data'] = $_POST;
+    Auth::login($username, $password);
+    var_dump(Auth::user());
+} else {
+    Session::put('errors', $errors);
+    Session::put('data', $_POST);
 
     header("Location:http://rawphp.test/");
 }
