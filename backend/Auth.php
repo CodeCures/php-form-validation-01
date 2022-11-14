@@ -24,28 +24,18 @@ class Auth extends Database
                 "SELECT * FROM users WHERE username='{$username}'"
             );
 
-            if($user = $query->fetch(PDO::FETCH_OBJ)){
-                
-                if(Hash::check($password, $user->password)){
+            if ($user = $query->fetch(PDO::FETCH_OBJ)) {
+
+                if (Hash::check($password, $user->password)) {
                     Session::put('user', $user);
                     return true;
                 }
             }
-
         } catch (PDOException $e) {
             return $e->getMessage();
         }
 
         return false;
-    }
-
-    /**
-     * @return bool
-     */
-    public static function logout(): bool
-    {
-       session_destroy();
-       return true;
     }
 
     /**
@@ -55,5 +45,13 @@ class Auth extends Database
     {
         return Session::get('user');
     }
-}
 
+    /**
+     * @return bool
+     */
+    public static function logout(): bool
+    {
+        session_destroy();
+        return true;
+    }
+}
