@@ -8,8 +8,8 @@ class Validator{
 
     public static function validate(array $data)
     {
-        foreach($data as $key as $value){
-            if(isset(key)){
+        foreach($data as $key => $value){
+            if(isset($key)){
                 self::$data[$key] = $value;
             }else{
                 Session::put('errors', "there was an error");
