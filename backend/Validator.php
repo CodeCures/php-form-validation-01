@@ -7,7 +7,6 @@ class Validator
 
     private static $data = [];
     private static $errors = [];
-    private static $postData = ['username' => 'Courage', 'password' => 'pass123'];
 
     public static function validate(array $data)
     {
@@ -16,10 +15,10 @@ class Validator
         for ($i = 0; $i < count($keys); $i++) {
             if (
                 $data[$keys[$i]] === 'required' &&
-                isset(self::$postData[$keys[$i]]) &&
-                !empty(self::$postData[$keys[$i]])
+                isset($_POST[$keys[$i]]) &&
+                !empty($_POST[$keys[$i]])
             ) {
-                self::$data[$keys[$i]] = self::$postData[$keys[$i]];
+                self::$data[$keys[$i]] = $_POST[$keys[$i]];
             } else {
                 self::$errors[$keys[$i]] = $keys[$i] . ' is  required';
             }
@@ -27,9 +26,9 @@ class Validator
 
 
         if (count(self::$errors) > 0) {
-            self::$data = [];
+            Session::put('data', self::$data);
             Session::put('errors', self::$errors);
-            header("Location:http://rawphp.test/");
+            return header("Location:http://rawphp.test/");
         }
 
         return new self;
@@ -45,11 +44,3 @@ class Validator
         return self::$errors;
     }
 }
-
-$validator = Validator::validate([
-    'username' => 'required',
-    'password' => 'required'
-]);
-
-var_dump($validator->validated());
-var_dump($validator->errors());
