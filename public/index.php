@@ -1,18 +1,5 @@
 <?php
-    session_start();
-
-    // session_destroy();
-
-    function errors($keyName){
-        return isset($_SESSION['errors'][$keyName]) ? "Please Enter $keyName" : "";
-    }
-
-    function value($keyName)
-    {
-        return isset($_SESSION['data'][$keyName]) ? $_SESSION['data'][$keyName] : "";
-    }
-
-
+require_once '../backend/helpers.php';
 ?>
 
 <!DOCTYPE html>
