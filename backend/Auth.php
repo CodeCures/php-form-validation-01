@@ -30,6 +30,8 @@ class Auth extends Database
                     Session::put('user', $user);
                     return true;
                 }
+
+                Session::put('errors', ['password' => 'Invalid password supplied']);
             }
         } catch (PDOException $e) {
             return $e->getMessage();
